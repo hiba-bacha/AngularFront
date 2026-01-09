@@ -1,0 +1,48 @@
+<!-- <h2>Ajout d'un assignement</h2>
+<form ngfrom (submit)="onSubmit($event)" #assignmentForm >
+    <mat-form-field>
+        <input matInput [(ngModel)]="nomDevoir" name="nom" >
+
+    </mat-form-field>
+    <p>{{nomDevoir}}</p>
+    <button mat-stroked-button color="primary" [disabled]="!ajoutactive">Ajouter un devoir</button>
+</form> -->
+
+
+
+<h2>Liste des assignments</h2>
+
+<mat-list>
+  @for (assignment of assignments; track assignment.nom) {
+    <h3 mat-subheader>{{ assignment.dateDeRendu | date:'dd/MM/yyyy' }}</h3>
+
+    <mat-list-item (click)="assignmentClique(assignment)">
+      <p><strong>{{ assignment.nom }}</strong></p>
+
+      @if (assignment.rendu) {
+        <p appRendu>L'assignment est rendu.</p>
+      } @else {
+        <p appNonRendu>A RENDRE</p>
+      }
+    </mat-list-item>
+
+    <mat-divider></mat-divider>
+  }
+</mat-list>
+
+<h2>Détails d'un assignment</h2>
+<app-assignment-detail 
+  [assignmentTransmis]="assignmentSelectionne"
+  (deleteAssignment)="onDeleteAssignment($event)">
+</app-assignment-detail>
+
+
+<h2>Ajouter un assignment</h2>
+@if (formVisible) {
+  <app-add-assignment (nouvelAssignment)="onNouvelAssignment($event)"></app-add-assignment>
+} @else {
+  <button mat-flat-button color="accent" (click)="onAddAssignmentBtnClick()">
+    Ajouter Assignment
+  </button>
+}
+
